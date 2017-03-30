@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+     
+        <!-- SPRING 公共配置
+     	<import resource="classpath:spring/applicationContext-common.xml"/>
+     	<import resource="classpath:spring/applicationContext-global.xml"/>
+     	<import resource="classpath:spring/applicationContext-kaptcha.xml"/> -->
+		<!-- 使用项目本身验证 
+		<import resource="classpath:spring/applicationContext-security.xml"/>--> 
+		<!-- 开启quartz任务配置 -->
+<!-- 		<import resource="classpath:spring/spring-quartz.xml"/> -->
+</beans>
