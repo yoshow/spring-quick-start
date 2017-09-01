@@ -35,6 +35,6 @@
 			<version>1.2</version> </dependency> -->
 	</dependencies>
 	<build>
-		<finalName>01-spring-basic</finalName>
+		<finalName>spring-quick-start</finalName>
 	</build>
 </project>
