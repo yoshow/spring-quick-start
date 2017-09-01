@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <context-param>  
+      <param-name>webAppRootKey</param-name>  
+      <param-value>com.x3platfom.myapp.root</param-value>  
+    </context-param>
+    
+	<!-- Spring MVC配置 -->
+
+	<servlet>
+		<servlet-name>myapp</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+
+		<!--
+		/*
+		* 可以自定义servlet.xml配置文件的位置和名称，默认为WEB-INF目录下，
+		* 名称为[<servlet-name>]-servlet.xml，如 spring-servlet.xml 
+		* <init-param><param-name>contextConfigLocation</param-name> 
+		* <param-value>/WEB-INF/spring-servlet.xml</param-value> 默认 </init-param>
+		*/ -->
+			<init-param> 
+			<param-name>contextConfigLocation</param-name> 
+			<param-value>classpath:spring/spring-servlet.xml</param-value> 
+			</init-param> 
+			<load-on-startup>1</load-on-startup> 
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>myapp</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!-- Spring配置 -->
+	<!-- 向 WEB 应用添加 Spring 提供的监听器，用来实例化 Spring 容器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	
+	<!-- 指定 Spring Bean 的配置文件所在目录。默认配置在 WEB-INF 目录下 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+        <param-value>classpath:spring/spring-beans.xml</param-value>
+	</context-param>
+	
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>
