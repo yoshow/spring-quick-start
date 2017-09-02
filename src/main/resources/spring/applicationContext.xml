@@ -5,21 +5,31 @@
             http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd              
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
 
-	<bean id="templateResolver" class="org.thymeleaf.templateresolver.ServletContextTemplateResolver">
+	<!-- SpringResourceTemplateResolver automatically integrates with Spring's own -->
+	<!-- resource resolution infrastructure, which is highly recommended. -->
+	<bean id="templateResolver" class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
 		<property name="prefix" value="/WEB-INF/classes/views/" />
 		<property name="suffix" value=".html" />
-		<property name="templateMode" value="HTML5" />
-		<!-- Template cache is set to false (default is true). -->
-		<property name="cacheable" value="false" />
-		<property name="characterEncoding" value="UTF-8" />
+		<!-- HTML is the default value, added here for the sake of clarity. -->
+		<property name="templateMode" value="HTML" />
+		<!-- Template cache is true by default. Set to false if you want -->
+		<!-- templates to be automatically updated when modified. -->
+		<property name="cacheable" value="true" />
 	</bean>
 
+	<!-- SpringTemplateEngine automatically applies SpringStandardDialect and -->
+	<!-- enables Spring's own MessageSource message resolution mechanisms. -->
 	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
 		<property name="templateResolver" ref="templateResolver" />
+		<!-- Enabling the SpringEL compiler with Spring 4.2.4 or newer can speed up -->
+		<!-- execution in most scenarios, but might be incompatible with specific -->
+		<!-- cases when expressions in one template are reused across different data -->
+		<!-- ypes, so this flag is "false" by default for safer backwards -->
+		<!-- compatibility. -->
+		<property name="enableSpringELCompiler" value="true" />
 	</bean>
-
 	<bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
-		<property name="contentNegotiationManager" ref="contentNegotiationManager" />
+		<property name="contentNegotiationManager" ref="contentNegotiationManager1" />
 
 		<property name="viewResolvers">
 			<list>
@@ -43,11 +53,10 @@
 	</bean>
 
 	<!-- Simple strategy: only path extension is taken into account -->
-	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+	<bean id="contentNegotiationManager1" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 		<property name="favorPathExtension" value="true" />
 		<property name="ignoreAcceptHeader" value="true" />
 		<property name="defaultContentType" value="text/html" />
-
 		<property name="mediaTypes">
 			<map>
 				<entry key="html" value="text/html" />
@@ -68,5 +77,4 @@
 	<context:component-scan base-package="com.x3platform.web.controllers" />
 
 	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-	<!-- <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver"> <property name="prefix"> <value>/WEB-INF/classes/views/</value> </property> <property name="suffix"> <value>.html</value> </property> </bean> -->
 </beans>

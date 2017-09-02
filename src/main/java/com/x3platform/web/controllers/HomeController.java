@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 	
 	/**
-	 * 登陆界面
+	 * 默认界面
 	 */
-	@RequestMapping("hello")
+	@RequestMapping("/index")
 	public String index(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
 		return "index";
 	}
@@ -23,6 +23,7 @@ public class HomeController {
 	 */
 	@RequestMapping("hello")
 	public String Hello(HttpServletRequest request, HttpServletResponse response, ModelMap map) {
+		map.addAttribute("name", "thymeleaf");
 		return "hello";
 	}
 }

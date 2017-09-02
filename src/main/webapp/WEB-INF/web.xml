@@ -4,13 +4,13 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <context-param>  
       <param-name>webAppRootKey</param-name>  
-      <param-value>com.x3platfom.myapp.root</param-value>  
+      <param-value>com.x3platfom.spring-quick-start.root</param-value>  
     </context-param>
     
 	<!-- Spring MVC配置 -->
 
 	<servlet>
-		<servlet-name>myapp</servlet-name>
+		<servlet-name>spring-quick-start</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 
 		<!--
@@ -28,7 +28,7 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>myapp</servlet-name>
+		<servlet-name>spring-quick-start</servlet-name>
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
