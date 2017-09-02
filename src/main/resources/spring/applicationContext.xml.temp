@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd  
+            http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd              
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<!-- thymeleaf缓存 
+	<bean id="thymeleafCacheManager" class="org.thymeleaf.cache.StandardCacheManager">
+		<property name="templateCacheInitialSize" value="60"></property>
+		<property name="templateCacheMaxSize" value="100"></property>
+	</bean>
+    -->
+	<!-- 模板的资源位置
+	<bean id="templateResolver"
+		class="org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver">
+		<property name="prefix" value="classpath:views/" />
+		<property name="templateMode" value="HTML5" />
+		<property name="order" value="1" />
+		<property name="suffix" value=".html" />
+		<property name="cacheable" value="false" />
+		<property name="characterEncoding" value="UTF-8" />
+	</bean>
+ -->
+	<!-- 配置 thymeleaf 的模板
+	<bean id="viewResolver" class="org.thymeleaf.spring4.view.ThymeleafViewResolver">
+		<property name="order" value="1" />
+		<property name="templateEngine" ref="templateEngine" />
+		<property name="characterEncoding" value="UTF-8" />
+	</bean>
+
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolvers" ref="templateResolver" />
+	</bean>
+ -->
+    <mvc:annotation-driven />
+	<!-- 激活 @Controller 模式
+	<mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+		    <!-- 将 StringHttpMessageConverter 的默认编码设为 UTF-8 - ->
+			<bean class="org.springframework.http.converter.StringHttpMessageConverter">
+				<constructor-arg value="UTF-8" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven> -->
+
+	<!-- 会把 "/**" url,注册到 SimpleUrlHandlerMapping 的 urlMap 中,把对静态资源的访问由 HandlerMapping -->
+	<!-- 转到 org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler 
+		处理并返回. -->
+	<!-- DefaultServletHttpRequestHandler 使用就是各个 Servlet 容器自己的默认 Servlet. -->
+	<mvc:default-servlet-handler />
+
+	<!-- 对包中的所有类进行扫描，以完成 Bean 创建和自动依赖注入的功能 需要更改 -->
+	<context:component-scan base-package="com.x3platform.web.controllers" />
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+	
+	<!-- 	-->	
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/classes/views/" />
+		<property name="suffix" value=".html"/>
+	</bean>
+	
+</beans>
