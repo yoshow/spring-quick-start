@@ -9,18 +9,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.List;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipFile;
-import org.apache.tools.zip.ZipOutputStream;
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.ArchiveOutputStream;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.jar.JarArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.compress.utils.IOUtils;
 
 @Controller
 public class HomeController {
@@ -97,8 +106,8 @@ public class HomeController {
 					// 删除处理文件上传时生成的临时文件
 					item.delete();
 					message = "文件上传成功！";
-					
-					unzip(savePath + "\\" + filename,savePath + "\\temp" );
+
+					unzip2(savePath + "\\" + filename, savePath + "\\temp");
 				}
 			}
 		} catch (Exception e) {
@@ -112,6 +121,39 @@ public class HomeController {
 		// response);
 
 		return "index";
+	}
+
+	/***
+	 * 解压zip
+	 * 
+	 * @param zipFile
+	 * @param decompressLoc
+	 *            :解压之后的文件所在目录
+	 * @throws ArchiveException
+	 * @throws IOException
+	 */
+	public static void unzip2(String zipFilename, String outputDirectory) throws ArchiveException, IOException {
+		ZipFile file = new ZipFile(zipFilename, "GBK");
+		Enumeration<ZipArchiveEntry> en = file.getEntries();
+		ZipArchiveEntry ze;
+		while (en.hasMoreElements()) {
+			ze = en.nextElement();
+			File f = new File(outputDirectory, ze.getName());
+			// 创建完整路径
+			if (ze.isDirectory()) {
+				f.mkdirs();
+				continue;
+			} else {
+				f.getParentFile().mkdirs();
+			}
+			
+			InputStream is = file.getInputStream(ze);
+			OutputStream os = new FileOutputStream(f);
+			IOUtils.copy(is, os, 1024);
+			is.close();
+			os.close();
+		}
+		file.close();
 	}
 
 	private static final int BUFFEREDSIZE = 1024;
@@ -129,9 +171,7 @@ public class HomeController {
 		if (!outFile.exists()) {
 			outFile.mkdirs();
 		}
-		
-		System.setProperty("sun.zip.encoding", System.getProperty("sun.jnu.encoding"));
-		
+
 		ZipFile zipFile = new ZipFile(zipFilename);
 		Enumeration en = zipFile.getEntries();
 		ZipEntry zipEntry = null;
