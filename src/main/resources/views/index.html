@@ -5,10 +5,11 @@
     Spring MVC 3.0 文件上传测试
   </h1>
   <!-- //action里的html是后缀名，不是HTML文件，用于spring对请求进行拦截判断-->
-  <form method="post" action="upload.do?method=fileUpload" enctype="multipart/form-data">其中method的是非注解的形式调用别的方法时传递的参数
+  <form method="post" action="upload?method=fileUpload" enctype="multipart/form-data">
+        其中method的是非注解的形式调用别的方法时传递的参数
     <!-- <input type="text" name="name" />-->
-    <input type="file" name="file" />
-    <input type="submit" />
+    <div></div><input type="file" name="file" /></div>
+    <div><input type="submit" value="Submit" /></div>
   </form>
 </body>
 
